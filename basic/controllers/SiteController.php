@@ -49,7 +49,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+		if(Yii::$app->user->isGuest)
+        	return $this->render('index');
+		else
+			return $this->run('/crud-calificacion/index');
     }
 
     public function actionLogin()
@@ -87,10 +90,5 @@ class SiteController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

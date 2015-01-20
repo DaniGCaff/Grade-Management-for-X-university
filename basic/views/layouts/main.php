@@ -21,13 +21,12 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'PProject',
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandLabel' => 'Universidad Politécnica de Madrid',
+                'brandUrl' => "http://upm.es",
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
@@ -35,12 +34,11 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                    ['label' => 'Inicio', 'url' => ['/site/index']],
+                    ['label' => 'Contacto', 'url' => ['/site/contact']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        ['label' => 'Acceder', 'url' => ['/site/login']] :
+                        ['label' => 'Cerrar sesión (' . Yii::$app->user->identity->user . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
@@ -48,20 +46,26 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">
-            <?= Breadcrumbs::widget([
+		<?php if(Yii::$app->user->isGuest == false) { ?>
+		<div class="col-sm-3 col-md-2 sidebar">
+		  <h3>Perfiles disponibles</h3>
+          <ul class="nav nav-sidebar">
+            <li><a href="#">Alumno</a></li>
+            <li><a href="#">Profesor</a></li>
+            <li><a href="#">Gestor</a></li>
+            <li><a href="#">Admon.</a></li>
+          </ul>
+        </div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<?php } else { ?>
+			<div class="container">
+		<?php } ?>
+			<?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= $content ?>
-        </div>
+		</div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <center>&copy; PProject <?= date('Y') ?></center>
-        </div>
-    </footer>
-
 <?php $this->endBody() ?>
 </body>
 </html>

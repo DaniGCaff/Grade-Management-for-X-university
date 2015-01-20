@@ -16,6 +16,7 @@ class LoginForm extends Model
 
     private $_user = false;
 
+
     /**
      * @return array the validation rules.
      */
@@ -42,9 +43,8 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-
-            if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+            if (!$user) {
+                $this->addError($attribute, 'Nombre y/o usuario incorrectos.');
             }
         }
     }
@@ -70,7 +70,10 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $useraux = Usuario::validateData($this->username, $this->password);
+			print_r($useraux);
+			if($useraux != null)
+				$this->_user = $useraux;
         }
 
         return $this->_user;
